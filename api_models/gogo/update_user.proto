@@ -1,0 +1,36 @@
+// go list -m -f '{{.Dir}}' github.com/gogo/protobuf
+
+// protoc -I .  -I /Users/savelii/go/pkg/mod/github.com/gogo/protobuf@v1.3.2 --gogo_out=path=source_relative:. api_models/gogo/update_user.proto
+
+syntax = "proto3";
+
+option go_package = "api_models/gogo";
+
+package api_models.gogo;
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+
+message UpdateUserRequest{
+  int64 id = 1 [
+    (gogoproto.jsontag) = 'id',
+    (gogoproto.moretags) = 'validate:"required,gt=0"'
+  ];
+  string name = 2 [
+    (gogoproto.jsontag) = 'name',
+    (gogoproto.moretags) = 'validate:"required,gt=0"'
+  ];
+  string email = 3 [
+    (gogoproto.jsontag) = 'email',
+    (gogoproto.moretags) = 'validate:"required,gt=0" binding:"required,gt=0"'
+  ];
+  google.protobuf.Timestamp created_at = 4 [
+    (gogoproto.jsontag) = 'created_at',
+    (gogoproto.stdtime) = true,
+    (gogoproto.nullable) = false
+  ];
+}

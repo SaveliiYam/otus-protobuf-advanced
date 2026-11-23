@@ -1,0 +1,24 @@
+//protoc \
+//    -I . \
+//    -I path/to/validate/ \
+//    --go_out=":../generated" \
+//    --validate_out="lang=go:../generated" \
+//    example.proto
+
+// go list -m -f '{{.Dir}}' github.com/envoyproxy/protoc-gen-validate
+
+// protoc -I api_models/protoc-gen-validate -I /Users/savelii/go/pkg/mod/github.com/envoyproxy/protoc-gen-validate@v1.3.3 --go_out=. --validate_out=lang=go:. api_models/protoc-gen-validate/user.proto
+
+syntax = "proto3";
+
+option go_package = "api_models/protoc-gen-validate";
+
+package api_models.v1;
+
+import "validate/validate.proto";
+
+message CreateUserRequest {
+  string name = 1 [(validate.rules).string = {min_len: 2, max_len: 100}];
+  string email = 2 [(validate.rules).string.email = true];
+  int32 age = 3 [(validate.rules).int32 = {gte: 18, lte:120}];
+}

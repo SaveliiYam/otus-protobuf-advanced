@@ -1,0 +1,19 @@
+// mkdir -p buf/validate
+// curl -fsSL -o buf/validate/validate.proto "https://raw.githubusercontent.com/bufbuild/protovalidate/v1.0.0/proto/protovalidate/buf/validate/validate.proto"
+
+// protoc  -I . --go_out=. api_models/protovalidate/user_protovalidate.proto
+
+syntax = "proto3";
+
+option go_package = "api_models/protovalidate";
+
+package api_models.v1;
+
+import "buf/validate/validate.proto";
+
+message CreateUserRequest2 {
+  string name = 1 [(buf.validate.field).string = {min_len: 2, max_len: 100}];
+  string email = 2 [(buf.validate.field).string.email = true];
+  int32 age = 3 [(buf.validate.field).int32 = {gte: 18, lte:120}];
+}
+
